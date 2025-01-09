@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'Job_Listings',
     'Job_Details',
     'category',
-    # 'Dashboard',
+    'contact_us',
     
 ]
 

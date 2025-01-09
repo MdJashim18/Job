@@ -25,7 +25,7 @@ urlpatterns = [
     path('Job_Listings/', include('Job_Listings.urls')),
     path('Job_Details/', include('Job_Details.urls')),
     path('category/', include('category.urls')),
-    # path('Dashboard/', include('Dashboard.urls')),
+    path('contact_us/', include('contact_us.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
