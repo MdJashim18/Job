@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-*s*jyc%4vt(94-=)tsdcz00sif9#0aso%)s44zfx_mic(d4^tn
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = ['https://job-buop.onrender.com']
 
 
 # Application definition
