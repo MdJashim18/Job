@@ -32,7 +32,9 @@ CSRF_TRUSTED_ORIGINS = ['https://job-buop.onrender.com']
 #     "http://localhost:52385", # Localhost
 # ]
 
-
+# CORS_ALLOWED_ORIGINS = [
+#       'https://job-buop.onrender.com' , frontend
+# ]
 # Application definition
 
 INSTALLED_APPS = [

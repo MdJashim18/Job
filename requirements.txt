@@ -1,7 +1,8 @@
 asgiref
-Django        
+Django
+django-cors-headers
 django-environ
-django-filter 
+django-filter
 djangorestframework
 Markdown
 pillow
