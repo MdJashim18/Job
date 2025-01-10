@@ -24,9 +24,13 @@ SECRET_KEY = 'django-insecure-*s*jyc%4vt(94-=)tsdcz00sif9#0aso%)s44zfx_mic(d4^tn
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+CORS_ALLOW_ALL_ORIGINS = True
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = ['https://job-buop.onrender.com']
+# CORS_ALLOWED_ORIGINS = [
+#     "http://127.0.0.1:52385",  # Your frontend origin
+#     "http://localhost:52385", # Localhost
+# ]
 
 
 # Application definition
@@ -38,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     'employee',
@@ -57,6 +62,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
+    # *MIDDLEWARE,
 ]
 
 ROOT_URLCONF = 'Job_board.urls'
