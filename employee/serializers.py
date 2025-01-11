@@ -14,13 +14,14 @@ class RegistrationSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(required = True)
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password', 'confirm_password']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password', 'confirm_password','status']
     
     def save(self):
         username = self.validated_data['username']
         first_name = self.validated_data['first_name']
         last_name = self.validated_data['last_name']
         email = self.validated_data['email']
+        st = self.validated_data['status']
         password = self.validated_data['password']
         password2 = self.validated_data['confirm_password']
         

@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'employee',
-    'Job_seekers',
+    # 'Job_seekers',
     'Job_Listings',
     'Job_Details',
     'category',
