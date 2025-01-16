@@ -5,6 +5,10 @@ from rest_framework.exceptions import PermissionDenied
 from employee.models import Employee
 
 # Corrected Viewset for JobListing
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import permission_classes
+
+@permission_classes([AllowAny])
 class JobListingViewset(viewsets.ModelViewSet):
     queryset = models.JobListing.objects.all()  # Should refer to JobListing model
     serializer_class = JobListingSerializer
