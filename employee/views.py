@@ -21,27 +21,32 @@ class EmployeeViewset(viewsets.ModelViewSet):
 
 
 
-
 class EmployeeRegistrationApiView(APIView):
     serializer_class = serializers.RegistrationSerializer
+   
     
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
-        
         if serializer.is_valid():
             user = serializer.save()
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
-            confirm_link = f"https://job-buop.onrender.com/employee/active/{uid}/{token}"
+            confirm_link = f"http://127.0.0.1:8000/employee/active/{uid}/{token}"
             email_subject = "Confirm Your Email"
-            email_body = render_to_string('confirm_email.html', {'confirm_link' : confirm_link})
+            email_body = render_to_string('confirm_email.html', {'confirm_link': confirm_link})
             
-            email = EmailMultiAlternatives(email_subject , '', to=[user.email])
+            email = EmailMultiAlternatives(email_subject, '', to=[user.email])
             email.attach_alternative(email_body, "text/html")
             email.send()
-            return Response("Check your mail for confirmation")
-        return Response(serializer.errors)
-    
+            return Response({
+                    'success': True,
+                    'message': "Check your mail for confirmation"
+                })
+        return Response({
+                'success': False,
+                'error': serializer.errors
+            })
+
 def activate(request, uid64, token):
     try:
         uid = urlsafe_base64_decode(uid64).decode()
@@ -77,6 +82,13 @@ class EmployeeLoginApiView(APIView):
 
 class EmployeeLogoutView(APIView):
     def get(self, request):
-        request.user.auth_token.delete()
+        try:
+            # Check if the user has an auth token
+            if hasattr(request.user, 'auth_token'):
+                request.user.auth_token.delete()
+        except Exception as e:
+            # Handle any unexpected errors gracefully
+            return Response({'error': str(e)}, status=400)
+
         logout(request)
         return redirect('login')

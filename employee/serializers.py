@@ -11,14 +11,19 @@ class EmployeeSerializer(serializers.ModelSerializer):
         
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    confirm_password = serializers.CharField(required = True)
+    confirm_password = serializers.CharField(required=True)
     status = serializers.ChoiceField(
         choices=[('user', 'user'), ('employee', 'employee')],
         required=True
     )
+    
+    # Add fields for employee details
+    image = serializers.ImageField(required=False)
+    mobile_no = serializers.CharField(max_length=12, required=False)
+
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'email', 'password', 'confirm_password','status']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password', 'confirm_password', 'status', 'image', 'mobile_no']
     
     def save(self):
         username = self.validated_data['username']
@@ -30,14 +35,23 @@ class RegistrationSerializer(serializers.ModelSerializer):
         password2 = self.validated_data['confirm_password']
         
         if password != password2:
-            raise serializers.ValidationError({'error' : "Password Doesn't Mactched"})
+            raise serializers.ValidationError({'error': "Passwords don't match"})
+        
         if User.objects.filter(email=email).exists():
-            raise serializers.ValidationError({'error' : "Email Already exists"})
-        account = User(username = username, email=email, first_name = first_name, last_name = last_name)
-        print(account)
+            raise serializers.ValidationError({'error': "Email already exists"})
+        
+        account = User(username=username, email=email, first_name=first_name, last_name=last_name)
         account.set_password(password)
         account.is_active = False
         account.save()
+
+        if status == 'employee':
+            # Use default values if image and mobile_no are not provided
+            image = self.validated_data.get('image', 'employee/images/default_image.jpg')  # Ensure default image
+            mobile_no = self.validated_data.get('mobile_no', '0000000000')  # Default mobile number
+            employee = models.Employee(user=account, image=image, mobile_no=mobile_no)
+            employee.save()
+
         return account
 
 
