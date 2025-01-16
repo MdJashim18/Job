@@ -82,6 +82,13 @@ class EmployeeLoginApiView(APIView):
 
 class EmployeeLogoutView(APIView):
     def get(self, request):
-        request.user.auth_token.delete()
+        try:
+            # Check if the user has an auth token
+            if hasattr(request.user, 'auth_token'):
+                request.user.auth_token.delete()
+        except Exception as e:
+            # Handle any unexpected errors gracefully
+            return Response({'error': str(e)}, status=400)
+
         logout(request)
         return redirect('login')
