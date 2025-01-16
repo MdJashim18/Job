@@ -10,7 +10,7 @@ class Employee(models.Model):
     status = models.CharField(max_length=50, choices=[
         ('user', 'user'),
         ('employee', 'employee')
-    ], default='pending')
+    ], default='user')
     
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
