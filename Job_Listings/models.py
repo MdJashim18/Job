@@ -13,6 +13,7 @@ class JobListing(models.Model):
     requirements = models.TextField()
     location = models.CharField(max_length=50)
     date_posted = models.DateTimeField(auto_now_add=True)
+    empty = models.IntegerField()
 
     def __str__(self):
         return f"{self.title} at {self.company_name}"
