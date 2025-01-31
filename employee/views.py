@@ -13,6 +13,8 @@ from rest_framework.authtoken.models import Token
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.shortcuts import redirect
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 class EmployeeViewset(viewsets.ModelViewSet):
@@ -23,8 +25,6 @@ class EmployeeViewset(viewsets.ModelViewSet):
 
 class EmployeeRegistrationApiView(APIView):
     serializer_class = serializers.RegistrationSerializer
-   
-    
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
@@ -63,21 +63,34 @@ def activate(request, uid64, token):
     
 
 class EmployeeLoginApiView(APIView):
+    
     def post(self, request):
-        serializer = serializers.EmployeeLoginSerializer(data = self.request.data)
+        serializer = serializers.EmployeeLoginSerializer(data=request.data)
         if serializer.is_valid():
             username = serializer.validated_data['username']
             password = serializer.validated_data['password']
 
-            user = authenticate(username= username, password=password)
+            user = authenticate(username=username, password=password)
             
             if user:
                 token, _ = Token.objects.get_or_create(user=user)
+                
+                try:
+                    employee = models.Employee.objects.get(user=user)
+                    if(employee):
+                        status = 'employee'
+                except models.Employee.DoesNotExist:
+                    status = 'user'  
+                
                 login(request, user)
-                return Response({'token' : token.key, 'user_id' : user.id})
+                return Response({
+                    'token': token.key,
+                    'user_id': user.id,
+                    'role': status 
+                })
             else:
-                return Response({'error' : "Invalid Credential"})
-        return Response(serializer.errors)
+                return Response({'error': "Invalid Credentials"}, status=400)
+        return Response(serializer.errors, status=400)
     
 
 class EmployeeLogoutView(APIView):
