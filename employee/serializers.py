@@ -49,7 +49,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
             # Use default values if image and mobile_no are not provided
             image = self.validated_data.get('image', 'employee/images/default_image.jpg')  # Ensure default image
             mobile_no = self.validated_data.get('mobile_no', '0000000000')  # Default mobile number
-            employee = models.Employee(user=account, image=image, mobile_no=mobile_no)
+            # employee = models.Employee(user=account, image=image, mobile_no=mobile_no)
+            status = 'employee'
+            employee = models.Employee(user=account, image=image, mobile_no=mobile_no,status=status)
             employee.save()
 
         return account
