@@ -14,5 +14,6 @@ urlpatterns = [
     path('login/', views.EmployeeLoginApiView.as_view(), name='login'),
     path('logout/', views.EmployeeLogoutView.as_view(), name='logout'),
     # path('verify-token/', views.TokenVerificationApiView.as_view(), name='verify-token'),
+    path('verify_token/', views.VerifyTokenAPIView.as_view(), name='verify_token'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

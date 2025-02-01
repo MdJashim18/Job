@@ -23,9 +23,9 @@ ALLOWED_HOSTS = ["*"]
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True  # Allows all origins (not recommended for production)
 # Alternatively, restrict to specific origins:
-CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:5500']
+# CORS_ALLOWED_ORIGINS = ['http://127.0.0.1:5500']
 
-CSRF_TRUSTED_ORIGINS = ['https://job-buop.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://job-buop.onrender.com', 'http://127.0.0.1:5500']
 
 
 INSTALLED_APPS = [
@@ -84,6 +84,13 @@ DATABASES = {
 }
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
@@ -107,6 +114,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
