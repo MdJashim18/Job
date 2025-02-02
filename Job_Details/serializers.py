@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from .models import Application
 
-
 class ApplicationSerializer(serializers.ModelSerializer):
     employer_name = serializers.CharField(source='employer.user.first_name', read_only=True)
 

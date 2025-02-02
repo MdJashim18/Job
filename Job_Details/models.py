@@ -1,7 +1,7 @@
 from django.db import models
 from Job_Listings.models import JobListing
 from employee.models import Employee
-# Create your models here.
+
 class Application(models.Model):
     job = models.ForeignKey(JobListing, related_name='applications', on_delete=models.CASCADE)
     employer = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='employer')

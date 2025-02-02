@@ -1,12 +1,12 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import ApplicationViewSet
+# from .views import JobViewSet, ApplicationViewSet
+from .import views
 
-# Create a router and register the viewset
 router = DefaultRouter()
-router.register('applications', ApplicationViewSet, basename='application')
 
-# Define URL patterns
+router.register('applications', views.ApplicationViewSet)
+
 urlpatterns = [
     path('', include(router.urls)),
 ]
