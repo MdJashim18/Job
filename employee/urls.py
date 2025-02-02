@@ -13,7 +13,7 @@ urlpatterns = [
     path('active/<uid64>/<token>/', activate, name='activate'),
     path('login/', EmployeeLoginApiView.as_view(), name='login'),
     path('logout/', EmployeeLogoutView.as_view(), name='logout'),
-    path('verify-token/',VerifyTokenAPIView.as_view(), name='verify-token')
+    path('verify_token/',VerifyTokenAPIView.as_view(), name='verify_token'),
 ]
 
 if settings.DEBUG:
